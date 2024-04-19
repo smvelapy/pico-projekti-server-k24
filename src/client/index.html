@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                background-color:antiquewhite;
+                text-align: center;
+            }
+            #container {
+                /* border: 2px red solid; */
+                display: inline-block;
+                width: 200px;
+                margin: auto;
+                font-size: 1.5em;
+            }
+            .temp-container, .hum-container {
+                /* font-size: 2em; */
+                /* border: 2px red solid; */
+                /* min-width: 150px; */
+                display: flex;
+                flex-direction: row;
+                justify-content:space-between;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>IoT client</h1>
+        <div id="container">
+
+            <div class="temp-container">
+                <div>Temp</div>
+                <div id="temp-value">23c</div>
+            </div>
+            <div class="hum-container">
+                <div>Hum</div>
+                <div id="hum-value">50%</div>
+            </div>
+            <label>
+                LED    
+                <input id="led-check" type="checkbox"/>
+            </label>
+            <!-- <h1>TODO</h1> -->
+        </div>
+        <script src="index.js"></script>
+    </body>
+</html>
