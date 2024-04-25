@@ -1,0 +1,81 @@
+# @baseurl=http://127.0.0.1:8000
+@baseurl=http://192.168.1.102:8000
+
+### GET baseurl
+GET {{baseurl}}/
+
+### GET /get-ledstate
+GET {{baseurl}}/ledstate-get
+
+### GET /set-ledastate=0
+GET {{baseurl}}/ledstate-put?state=0
+
+### GET /ledastate-put=1
+GET {{baseurl}}/ledstate-put?state=1
+
+### GET /appstate-get
+GET {{baseurl}}/appstate-get
+
+
+
+### GET /settings-get
+GET {{baseurl}}/settings-get
+
+### GET /get-data
+GET {{baseurl}}/data-get
+
+### GET /getall-data
+GET {{baseurl}}/dataall-get
+
+### GET /post-data
+GET {{baseurl}}/data-post?temp=20&hum=40
+
+### GET /post-data promt
+# @prompt temp
+# @prompt hum
+GET {{baseurl}}/data-post?temp={{temp}}&hum={{hum}}
+
+
+
+
+
+# PRIVATE API
+
+### GET /reset
+GET {{baseurl}}/reset
+
+### GET /test/temp-overwrite-state-put  Normal
+# @prompt state
+GET {{baseurl}}/test/temp-overwrite-state-put?state={{state}}
+
+
+
+
+
+### GET /test/score
+GET {{baseurl}}/test/score?temp=20&hum=40
+
+### GET /test/score
+GET {{baseurl}}/test/score
+?temp=50
+&hum=40
+
+### POST /test/score
+POST {{baseurl}}/test/score?temp=50&hum=40
+
+### POST /test/score
+POST {{baseurl}}/test/score
+Content-Type: application/json
+
+{
+    "temp":23,
+    "hum":50
+}
+### POST /non-existing
+GET {{baseurl}}/post-data
+Content-Type: application/json
+
+{
+    "temp":23,
+    "hum":50
+}

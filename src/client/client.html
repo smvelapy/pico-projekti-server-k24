@@ -21,26 +21,36 @@
                 flex-direction: row;
                 justify-content:space-between;
             }
+            #temp-warning, #hum-warning {
+                color: red;
+                font-size: 3.0em;
+            }
+            .hidden {
+                display: none;
+            }
         </style>
     </head>
     <body>
-        <h1>IoT client</h1>
+        <h1>Temperature & humidity sensor</h1>
         <div id="container">
-
+            <div id="sensor-readed"></div>
+            <!-- --- Temperature: 21.28 C°--- Humidity: 32.72 RH  -->
             <div class="temp-container">
                 <div>Temp</div>
-                <div id="temp-value">23c</div>
+                <div id="temp-value">23 C°</div>
             </div>
             <div class="hum-container">
                 <div>Hum</div>
-                <div id="hum-value">50%</div>
+                <div id="hum-value">50 RH</div>
             </div>
-            <label>
+            <label style="display: none;">
                 LED    
                 <input id="led-check" type="checkbox"/>
             </label>
             <!-- <h1>TODO</h1> -->
         </div>
+        <div id="temp-warning" class="hidden"></div>
+        <div id="hum-warning" class="hidden"></div>
         <script src="index.js"></script>
     </body>
 </html>

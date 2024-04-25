@@ -4,13 +4,15 @@ class Storage {
     constructor() {
         /** @type {sqlite3.Database} */
         this.db = undefined;
+        /** @type { {temp:number,hum:number} } */
+        this._cachedData = undefined;
     }
     init(path) {
         this.db = new sqlite3.Database(path);
     }
     initTables() {
         return new Promise( (resolve) => {
-            this.db.run(`CREATE TABLE sensor_data (
+            this.db.run(`CREATE TABLE IF NOT EXISTS sensor_data (
                 id INTEGER PRIMARY KEY AUTOINCREMENT not null,
                 temp FLOAT not null,
                 hum FLOAT not null,
@@ -26,7 +28,14 @@ class Storage {
     addData(temp, hum) {
         return new Promise ( (resolve) => {
             this.db.run("INSERT INTO sensor_data(temp, hum) VALUES(?, ?)"
-            ,[temp, hum], (err) => resolve(err));
+            ,[temp, hum], (err) => {
+                resolve(err);
+                if (this._cachedData == undefined) {
+                    this._cachedData = {};
+                }
+                this._cachedData.temp = temp;
+                this._cachedData.hum = hum;
+            });
         })
     }
     /** @returns {Promise<Array>} */
@@ -39,13 +48,36 @@ class Storage {
         })
     }
     /** @returns {Promise<object>} */
-    getData() {
+    getData(useCached = false) {
+        if (useCached && this._cachedData) {
+            return new Promise( (resolve) => {
+                resolve(this._cachedData);
+            });
+        }
         return new Promise( (resolve) => {
-            this.db.all(`SELECT temp,hum FROM sensor_data
-                        ORDER BY timestamp DESC LIMIT 1 `, (err, rows) => {
-                resolve(rows[0]);      
+            this.db.get(`SELECT temp,hum,unixepoch(timestamp) as timestamp FROM sensor_data
+                        ORDER BY timestamp DESC LIMIT 1`, (err, row) => {
+                resolve(row);      
             });
         })
+    }
+    /** @returns {Promise<object>} */
+    getAllData() {
+        return new Promise( (resolve) => {
+            this.db.all(`SELECT temp,hum,unixepoch(timestamp) as timestamp FROM sensor_data`, (err, rows) => {
+                resolve(rows);      
+            });
+        })
+    }
+    deleteAllData() {
+        const sql = "DELETE FROM sensor_data";
+        this.db.run(sql, (res, err) => {
+            if (err) {
+                console.log("deleteAllData failed");
+            }else {
+                console.log("deleteAllData succeed");
+            }
+        });
     }
     dispose() {
         this.db.close();
