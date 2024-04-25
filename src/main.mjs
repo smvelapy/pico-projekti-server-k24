@@ -4,8 +4,7 @@ import storage from "./storage.mjs";
 import { appstate, TEMP_STATE_LOW, TEMP_STATE_HIGH, TEMP_STATE_OK } from "./settings.mjs";
 
 const HOSTNAME = "127.0.0.1";
-// const HOSTNAME = "192.168.1.102";
-const PORT = 8000;
+const PORT = 0;
 
 const UPDATE_INTERVAL_IN_SECONDS = 2.0;
 

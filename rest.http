@@ -1,5 +1,4 @@
-# @baseurl=http://127.0.0.1:8000
-@baseurl=http://192.168.1.102:8000
+@baseurl=http://127.0.0.1:8000
 
 ### GET baseurl
 GET {{baseurl}}/
